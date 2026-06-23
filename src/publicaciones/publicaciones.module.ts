@@ -7,15 +7,15 @@ import { Publicacion, PublicacionSchema } from './schemas/publicacion.schema';
 import { AuthModule } from '../auth/auth.module';
 import { UsuariosModule } from '../usuarios/usuarios.module';
 import { JwtStrategy } from '../auth/jwt.strategy';
+import { CloudinaryModule } from '../cloudinary/cloudinary.module';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      { name: Publicacion.name, schema: PublicacionSchema },
-    ]),
+    MongooseModule.forFeature([{ name: Publicacion.name, schema: PublicacionSchema }]),
     PassportModule,
-    AuthModule,     // exporta JwtModule → disponible para JwtStrategy
-    UsuariosModule, // JwtStrategy necesita UsuariosService
+    AuthModule,
+    UsuariosModule,
+    CloudinaryModule,
   ],
   controllers: [PublicacionesController],
   providers: [PublicacionesService, JwtStrategy],

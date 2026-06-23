@@ -19,7 +19,7 @@ export class AuthController {
     @Body() registerDto: RegisterDto,
     @UploadedFile() file?: Express.Multer.File,
   ) {
-    return this.authService.register(registerDto, file?.filename);
+    return this.authService.register(registerDto, file);
   }
 
   @Post('login')
