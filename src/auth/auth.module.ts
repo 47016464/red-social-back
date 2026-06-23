@@ -1,15 +1,18 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
-import { UsuariosModule } from '../usuarios/usuarios.module';
+import { PassportModule } from '@nestjs/passport';
 import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
+import { UsuariosModule } from '../usuarios/usuarios.module';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
     UsuariosModule,
+    PassportModule,
     JwtModule.register({
       secret: 'JWT_SECRET_ORBIT_2024',
       signOptions: { expiresIn: '7d' },
@@ -28,11 +31,11 @@ import { extname } from 'path';
         }
         cb(null, true);
       },
-      limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+      limits: { fileSize: 5 * 1024 * 1024 },
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService],
-  exports: [JwtModule],
+  providers: [AuthService, JwtStrategy],
+  exports: [JwtModule],   // PublicacionesModule lo importa
 })
 export class AuthModule {}
