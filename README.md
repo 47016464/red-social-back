@@ -53,3 +53,41 @@ perfil         string  opcional (default: "usuario")
 
 imagenPerfil   file    opcional
 
+## Sprint 2 — Backend
+
+### Nuevos endpoints
+
+#### Publicaciones
+
+| Método | Ruta | Descripción | Auth | Status |
+|--------|------|-------------|------|--------|
+| GET | /publicaciones | Listar publicaciones | ✅ JWT | 200 OK |
+| POST | /publicaciones | Crear publicación | ✅ JWT | 201 Created |
+| DELETE | /publicaciones/:id | Eliminar publicación (baja lógica) | ✅ JWT | 200 OK |
+| POST | /publicaciones/:id/like | Dar me gusta | ✅ JWT | 200 OK |
+| DELETE | /publicaciones/:id/like | Quitar me gusta | ✅ JWT | 200 OK |
+| POST | /publicaciones/:id/comentarios | Agregar comentario | ✅ JWT | 201 Created |
+
+#### GET /publicaciones — Parámetros opcionales
+
+| Parámetro | Tipo | Descripción | Default |
+|-----------|------|-------------|---------|
+| orden | `fecha` \| `likes` | Criterio de ordenamiento | `fecha` |
+| offset | number | Desde qué registro paginar | `0` |
+| limit | number | Cantidad de resultados | `5` |
+| usuarioId | string | Filtrar por autor | — |
+
+#### POST /publicaciones
+Body: `multipart/form-data`
+- `titulo` string — requerido
+- `mensaje` string — requerido
+- `imagen` file — opcional
+
+### Nuevas funcionalidades
+- Autenticación JWT requerida en todos los endpoints de publicaciones
+- Baja lógica de publicaciones (campo `eliminado: true`)
+- Un usuario solo puede dar un me gusta por publicación
+- Solo el autor o un administrador puede eliminar una publicación
+- Ordenamiento por fecha o cantidad de likes via aggregation pipeline
+- Paginación con `offset` y `limit`
+- Imágenes de publicaciones guardadas en `/uploads/publicaciones/`
