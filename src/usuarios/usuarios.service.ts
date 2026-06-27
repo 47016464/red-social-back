@@ -29,4 +29,10 @@ export class UsuariosService {
   async buscarPorId(id: string): Promise<UsuarioDocument | null> {
     return this.usuarioModel.findById(id).select('-password');
   }
+
+  async actualizar(id: string, datos: { nombre?: string; apellido?: string; descripcion?: string; imagenPerfil?: string }): Promise<UsuarioDocument | null> {
+    return this.usuarioModel
+      .findByIdAndUpdate(id, { $set: datos }, { new: true })
+      .select('-password');
+  }
 }

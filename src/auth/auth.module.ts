@@ -15,7 +15,7 @@ import { CloudinaryModule } from '../cloudinary/cloudinary.module';
     PassportModule,
     JwtModule.register({
       secret: 'JWT_SECRET_ORBIT_2024',
-      signOptions: { expiresIn: '7d' },
+      signOptions: { expiresIn: '15m' },
     }),
     MulterModule.register({
       storage: memoryStorage(),

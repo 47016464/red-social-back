@@ -25,6 +25,8 @@ export class Publicacion {
       {
         autor: { type: Types.ObjectId, ref: 'Usuario' },
         texto: { type: String, required: true },
+        editado: { type: Boolean, default: false },
+        editadoEn: { type: Date, default: null },
         creadoEn: { type: Date, default: Date.now },
       },
     ],
@@ -33,6 +35,8 @@ export class Publicacion {
   comentarios!: {
     autor: Types.ObjectId;
     texto: string;
+    editado: boolean;
+    editadoEn: Date | null;
     creadoEn: Date;
   }[];
 
