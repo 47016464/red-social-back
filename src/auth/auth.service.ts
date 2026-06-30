@@ -41,6 +41,8 @@ export class AuthService {
     const passwordValida = await bcrypt.compare(loginDto.password, usuario.password);
     if (!passwordValida) throw new UnauthorizedException('Usuario o contraseña incorrectos');
 
+    if (!usuario.habilitado) throw new UnauthorizedException('Tu cuenta fue deshabilitada. Contactá al administrador.');
+
     const { password, ...datosUsuario } = usuario.toObject();
     const token = this.generarToken(datosUsuario);
     return { token, usuario: datosUsuario };

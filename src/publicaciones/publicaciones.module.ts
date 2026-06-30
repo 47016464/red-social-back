@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
 import { PublicacionesController } from './publicaciones.controller';
 import { ComentariosController } from './comentarios.controller';
+import { EstadisticasController } from './estadisticas.controller';
 import { PublicacionesService } from './publicaciones.service';
 import { Publicacion, PublicacionSchema } from './schemas/publicacion.schema';
 import { Usuario, UsuarioSchema } from '../usuarios/schemas/usuario.schema';
@@ -22,7 +23,7 @@ import { CloudinaryModule } from '../cloudinary/cloudinary.module';
     UsuariosModule,
     CloudinaryModule,
   ],
-  controllers: [PublicacionesController, ComentariosController],
+  controllers: [PublicacionesController, ComentariosController, EstadisticasController],
   providers: [PublicacionesService, JwtStrategy],
 })
 export class PublicacionesModule {}

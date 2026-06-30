@@ -153,3 +153,60 @@ El backend está deployado en Railway:
 | `sprint-1` | Snapshot de entrega del Sprint 1 |
 | `sprint-2` | Snapshot de entrega del Sprint 2 |
 | `sprint-3` | Snapshot de entrega del Sprint 3 |
+
+---
+
+## Sprint 4 — Backend
+
+### Módulo Usuarios — nuevos endpoints
+
+| Método | Ruta | Descripción | Auth | Status |
+|---|---|---|---|---|
+| GET | `/usuarios` | Listar todos los usuarios | ✅ JWT + Admin | 200 OK |
+| POST | `/usuarios` | Crear nuevo usuario | ✅ JWT + Admin | 201 Created |
+| DELETE | `/usuarios/:id` | Deshabilitar usuario (baja lógica) | ✅ JWT + Admin | 200 OK |
+| POST | `/usuarios/:id/habilitar` | Rehabilitar usuario deshabilitado | ✅ JWT + Admin | 200 OK |
+| PUT | `/usuarios/:id` | Editar perfil propio | ✅ JWT | 200 OK |
+
+- Todos los endpoints de administración validan que el token pertenezca a un usuario con perfil `administrador` mediante `AdminGuard`
+- Un usuario deshabilitado (`habilitado: false`) recibe un **401 Unauthorized** al intentar hacer login con el mensaje "Tu cuenta fue deshabilitada. Contactá al administrador."
+- El campo `habilitado` se agregó al schema de Usuario (default: `true`)
+
+##### POST `/usuarios` — Body: `multipart/form-data`
+| Campo | Tipo | Requerido |
+|---|---|---|
+| nombre | string | ✅ |
+| apellido | string | ✅ |
+| email | string, único | ✅ |
+| username | string, único | ✅ |
+| password | string, mín 8 chars, 1 mayúscula, 1 número | ✅ |
+| fechaNacimiento | string | ✅ |
+| descripcion | string | ❌ |
+| perfil | `usuario` \| `administrador` | ❌ (default: `usuario`) |
+| imagenPerfil | file | ❌ |
+
+### Módulo Publicaciones — Estadísticas Controller
+
+| Método | Ruta | Descripción | Auth | Status |
+|---|---|---|---|---|
+| GET | `/estadisticas/publicaciones-por-usuario` | Publicaciones agrupadas por autor | ✅ JWT + Admin | 200 OK |
+| GET | `/estadisticas/comentarios-por-tiempo` | Comentarios agrupados por día | ✅ JWT + Admin | 200 OK |
+| GET | `/estadisticas/comentarios-por-publicacion` | Top 10 publicaciones con más comentarios | ✅ JWT + Admin | 200 OK |
+
+Todos los endpoints aceptan query params opcionales:
+| Parámetro | Tipo | Descripción |
+|---|---|---|
+| desde | string (fecha) | Inicio del lapso de tiempo |
+| hasta | string (fecha) | Fin del lapso de tiempo |
+
+- Todos los endpoints de estadísticas validan que el token pertenezca a un administrador
+- Las consultas usan aggregation pipelines de MongoDB para mayor eficiencia
+
+### Ramas
+| Rama | Descripción |
+|---|---|
+| `main` | Versión actual en producción |
+| `sprint-1` | Snapshot de entrega del Sprint 1 |
+| `sprint-2` | Snapshot de entrega del Sprint 2 |
+| `sprint-3` | Snapshot de entrega del Sprint 3 |
+| `sprint-4` | Snapshot de entrega del Sprint 4 |
