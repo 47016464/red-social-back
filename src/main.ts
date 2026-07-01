@@ -8,19 +8,19 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.enableCors({
-    origin: 'http://localhost:4200',
+    origin: '*',
     methods: 'GET,POST,PUT,DELETE,PATCH',
-    credentials: true,
+    credentials: false,
   });
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
-  // Servir imágenes estáticamente
   app.useStaticAssets(join(__dirname, '..', 'uploads'), {
     prefix: '/uploads',
   });
 
-  await app.listen(3000);
-  console.log('🚀 Servidor corriendo en http://localhost:3000');
+  const port = process.env.PORT || 3000;
+  await app.listen(port);
+  console.log(`🚀 Servidor corriendo en puerto ${port}`);
 }
 bootstrap();

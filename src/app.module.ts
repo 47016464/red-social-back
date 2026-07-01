@@ -6,7 +6,7 @@ import { PublicacionesModule } from './publicaciones/publicaciones.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb+srv://augusebottazzi_db_user:Orbit1234@bottazzinho.bxe3pdu.mongodb.net/?appName=Bottazzinho'),
+    MongooseModule.forRoot('mongodb+srv://augusebottazzi_db_user:Orbit1234@bottazzinho.bxe3pdu.mongodb.net/orbit?appName=Bottazzinho'),
     AuthModule,
     UsuariosModule,
     PublicacionesModule,
